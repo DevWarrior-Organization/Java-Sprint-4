@@ -1,0 +1,47 @@
+=====================================================================
+ SPRINT 4 - API REST (Spring Boot) - Equipe Dev Warriors
+=====================================================================
+
+Como rodar a API (CMD ou PowerShell)
+------------------------------------
+1. Navegue ate a pasta do projeto:
+   cd Downloads\"Challenge sprint 4"
+
+2. Suba a API com o Maven Wrapper (nao precisa instalar Maven):
+   .\mvnw.cmd spring-boot:run
+
+3. A API fica disponivel em:
+   http://localhost:8080
+
+Endpoints para testar no navegador:
+   http://localhost:8080/usuarios
+   http://localhost:8080/viagens
+   http://localhost:8080/ranking
+   http://localhost:8080/viagens/fatores
+
+Gerar o .jar (para deploy e entrega em .zip)
+--------------------------------------------
+   .\mvnw.cmd clean package -DskipTests
+   java -jar target\devwarrior-0.0.1-SNAPSHOT.jar
+
+Variaveis de ambiente (opcionais, usadas no deploy)
+---------------------------------------------------
+   DB_HOST      (padrao: oracle.fiap.com.br)
+   DB_USER      (padrao: RM573332)
+   DB_PASSWORD  (padrao: senha do FIAP Oracle)
+
+Caso prefira o IntelliJ IDEA
+----------------------------
+1. Abra o IntelliJ -> File -> Open -> selecione a pasta "Challenge sprint 4"
+2. Aguarde o IntelliJ importar o projeto Maven (pom.xml)
+3. Abra a classe DevwarriorApplication -> clique no botao verde ao lado do main
+
+=====================================================================
+ SPRINT 3 (aplicacao antiga de console) - pasta separada
+=====================================================================
+Fica em: Downloads\"Challenge sprint 3"
+
+1. cd Downloads\"Challenge sprint 3"
+2. mkdir out
+3. javac -cp "libs\*;src" -d out "src\br\com\fiap\main\Main.java"
+4. java -cp "out;libs\*" br.com.fiap.main.Main

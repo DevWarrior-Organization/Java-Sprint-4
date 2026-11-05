@@ -1,0 +1,31 @@
+@startuml
+title MER - Modelo de Entidade-Relacionamento
+
+skinparam shadowing false
+skinparam dpi 150
+skinparam defaultFontName "Segoe UI"
+skinparam defaultFontSize 13
+skinparam entityBackgroundColor White
+skinparam entityBorderColor #555555
+skinparam ArrowColor #37474F
+
+entity "T_SP_USUARIO" {
+  * id_usuario : NUMBER(10) <<PK>>
+  --
+  nm_usuario : VARCHAR2(100)
+  nr_cpf : VARCHAR2(14) <<UK>>
+  qt_pontos : NUMBER(10,2)
+}
+
+entity "T_SP_VIAGEM" {
+  * id_viagem : NUMBER(10) <<PK>>
+  --
+  id_usuario : NUMBER(10) <<FK>>
+  ds_tipo_transporte : VARCHAR2(20)
+  nr_distancia_km : NUMBER(10,2)
+  nr_pontos : NUMBER(10,2)
+  dt_viagem : DATE
+}
+
+T_SP_USUARIO ||--o{ T_SP_VIAGEM : realiza
+@enduml
