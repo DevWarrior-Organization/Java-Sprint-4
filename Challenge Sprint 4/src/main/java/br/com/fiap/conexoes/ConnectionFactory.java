@@ -1,10 +1,8 @@
 package br.com.fiap.conexoes;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
-
 /**
  * Padrao Connection Factory: ponto unico de criacao de conexoes com o Oracle.
  *
@@ -13,22 +11,18 @@ import java.sql.Statement;
  * sem expor dados sensiveis no codigo.
  */
 public final class ConnectionFactory {
-
     private static final String URL = "jdbc:oracle:thin:@%s:1521:ORCL";
-
     private ConnectionFactory() {
     }
-
     /**
      * Cria e devolve uma nova conexao com o banco de dados.
      */
     public static Connection getConnection() throws SQLException {
         return DriverManager.getConnection(
                 String.format(URL, env("DB_HOST", "oracle.fiap.com.br")),
-                env("DB_USER", "RM573332"),
-                env("DB_PASSWORD", "040208"));
+                requiredEnv("DB_USER"),
+                requiredEnv("DB_PASSWORD"));
     }
-
     /**
      * Cria tabelas, sequences e indices caso ainda nao existam.
      * Erros de "objeto ja existe" sao ignorados de proposito.
@@ -55,7 +49,6 @@ public final class ConnectionFactory {
             "CREATE INDEX idx_viagem_data ON T_SP_VIAGEM(dt_viagem)",
             "CREATE INDEX idx_usuario_cpf ON T_SP_USUARIO(nr_cpf)"
         };
-
         try (Connection conn = getConnection(); Statement stmt = conn.createStatement()) {
             for (String sql : sqls) {
                 try {
@@ -69,7 +62,13 @@ public final class ConnectionFactory {
             System.err.println("Aviso: nao foi possivel inicializar o banco agora: " + e.getMessage());
         }
     }
-
+    private static String requiredEnv(String chave) {
+        String valor = System.getenv(chave);
+        if (valor == null || valor.isBlank()) {
+            throw new IllegalStateException("Configure a variavel de ambiente " + chave);
+        }
+        return valor;
+    }
     private static String env(String chave, String padrao) {
         String valor = System.getenv(chave);
         return (valor == null || valor.isBlank()) ? padrao : valor;
